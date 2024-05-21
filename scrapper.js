@@ -29,7 +29,6 @@ const puppeteer = require('puppeteer');
         //console.log('Job Listings:', jobListings); 
 
         for (let job of jobListings) {
-            const page = await browser.newPage();
             await page.goto('https://remote.co/job/'+job.jobLink, { waitUntil: 'domcontentloaded' })
             
             const jobDetails = await page.evaluate(() => {
@@ -45,6 +44,7 @@ const puppeteer = require('puppeteer');
                 return { jobLocation, salary, jobDescription, CompanyLogo, webSiteLink }
             })
             job.jobDetails = jobDetails;
+            console.log(JSON.stringify(jobListings, null, 2));
         }
         console.log(JSON.stringify(jobListings, null, 2));
         await page.close();
